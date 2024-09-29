@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 	<head>
 		<title>Resume</title>
@@ -19,34 +19,35 @@
     
 	<body>
 		<center>
-			<div class="container mt-3">
-			<h2>Bongais Individual Activity</h2>
-				<table border=1>
-				<table class="table table-bordered">
-				<thead class="table-dark">
-					<tr>
-						<th class="center-text" colspan=3>MY RESUME</th>
-					</tr>
-				</thead>
-					<tbody>
-                    	<tr>
-                        	<td class="center-text font-bold">SURNAME</td>
-                            <td class="center-text font-bold">FIRST NAME</td>
-                            <td class="center-text font-bold">MIDDLE NAME</td>
-                         </tr>
-                          
-     					<tr>
-        					<td>Bongais</td>
-                            <td>Romeo Manuel</td>
-                            <td>M.</td>
-      					</tr>
-                        
-                        <tr>
-                        	<td class="center-text" colspan=3>hue hue hue hue hue<t/d>
-                        </tr>
-					</tbody>
-				</table>
-			</div>
+		    <div class="container mt-3">
+                <div class="row">
+			        <h2>Bongais Individual Activity</h2>
+	        			<table border=1>
+	        			<table class="table table-bordered">
+	        			<thead class="table-dark">
+		        			<tr>
+		        				<th class="center-text" colspan=3>MY RESUME</th>
+			        		</tr>
+        				</thead>
+	        				<tbody>
+                                <tr>
+                                    <td class="center-text font-bold">SURNAME</td>
+                                    <td class="center-text font-bold">FIRST NAME</td>
+                                    <td class="center-text font-bold">MIDDLE NAME</td>
+                                </tr>
+                                
+                                <tr>
+                                    <td>Bongais</td>
+                                    <td>Romeo Manuel</td>
+                                    <td>M.</td>
+                                </tr>
+                                
+                                <tr>
+                                    <td class="center-text" colspan=3>hue hue hue hue hue<t/d>
+                                </tr>
+                            </tbody>
+                        </table>
+                </div>
 
 	</body>
 </html>
