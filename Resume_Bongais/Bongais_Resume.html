@@ -18,19 +18,42 @@
 					transition: opacity 1.5s ease;
 					position: absolute;
 					width: 100%;
+					height: auto;
+					left: 0;
 				}
 				.mySlides.active {
 					opacity: 1;
 					position: relative;
 				}
-				img {
-					vertical-align: middle;
+				.mySlides img {
+					width: 100%;
+					height: auto;
+					object-fit: contain;
+					display: block;
+				}
+				.mySlides video {
+					width: 40%;
+					height: auto;
+					object-fit: contain;
+				}
+				.slideshow-video {
+					position: relative;
+					z-index: 1;
+				}
+				.video-controls {
+					position: absolute;
+					bottom: 10px;
+					left: 10px;
+					right: 10px;
+					z-index: 2;
 				}
 				.slideshow-container {
 					position: relative;
 					max-width: 100%;
 					margin: auto;
 					overflow: hidden;
+					width: 100%;
+					height: auto;
 				}
 				.slideshow-container img {
 					max-width: 100%;
@@ -79,44 +102,67 @@
 				}
 
                 .fade {
-                animation-name: fade;
-                animation-duration: 1.5s;
+                	animation-name: fade;
+                	animation-duration: 1.5s;
                 }
 
                 @keyframes fade {
-                from {opacity: .4} 
-                to {opacity: 1}
+                	from {opacity: .4} 
+                	to {opacity: 1}
                 }
 
 
                 @media only screen and (max-width: 300px) {
                 .prev, .next,.text {font-size: 11px}
+				.mySlides img {
+					width: 100%;
+					max-height: 60vh;
+					}
                 }
-				
+				img {
+					vertical-align: middle;
+					border-radius: 10px;
+				}
+				.table {
+					border-radius: 8px;
+					box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+				}
                 .center-text {
-                        text-align: center; vertical-align: middle;
+                    text-align: center; vertical-align: middle;
                             }
                 .v-mid {
-                        vertical-align: middle;
+                    vertical-align: middle;
                             }
                 .font-bold {
-                            font-weight:bold;
-                            }
+                    font-weight:bold;
+                }
+				.audio-container audio {
+					display: none;
+				}
+				footer {
+					font-size: 12px;
+					text-align: center;
+					color: #666;
+					padding: 10px 0;
+				}
+				a {
+					text-decoration: none;
+					border: none;
+				}
         </style>
 
     </head>
     
 	<body>
-		<center>
-			<p></p>
 			<p>:3</p>
 			<div class="audio-container" style="text-align: center;">
-				<audio controls autoplay loop>
+				<audio id="backgroundMusic" loop autoplay>
 					<source src="Audio/Background Music.mp3" type="audio/mp3">
-					Your browser does not support the audio element.
 				</audio>
-		    <div class="container mt-3">
-	        			<table class="table table-bordered">
+				<div class="container mt-5">
+					<div class="row justify-content-center">
+						<div class="col-md-8">
+	        			<table class="table table-bordered table-hover">
 	        			<thead class="table-dark">
 		        			<tr>
 		        				<th class="center-text" colspan=4>MY RESUME</th>
@@ -178,96 +224,189 @@
 								<tr>
 									<td class="center-text font-bold table-dark" colspan=4></td>
 								</tr>
-
 								<tr>
-									<td class="center-text font-bold table-active" colspan="4">FEATURED ARTWORKS</td>
+									<td class="center-text" colspan="4">Greetings Fellow <strong>HUMAN.</strong>
+										<br>I am an Animator & Graphic Artist who is striving to be the very best, like no one ever was.</td>
+								</tr>								
+								<tr>
+									<td class="center-text font-bold table-dark" colspan="4">FEATURED WORKS</td>
 								</tr>
 					</div>					
                             </tbody>
                         </table>
             </div>
 
-			<div class="slideshow-container">
-
+			<div class="slideshow-container" id="slideshow">
+				<!-- Artworks Slideshow -->
 				<div class="mySlides fade">
-				  <div class="numbertext">1 / 5</div>
-				  <img src="Pics/Art01.png" style="width:100%">
-				  <div class="text">Movie Poster Activity</div>
+					<div class="numbertext">1 / 10</div>
+					<img src="Pics/Art01.png" style="width:100%">
+					<div class="text">Movie Poster Activity</div>
 				</div>
-				
+			
 				<div class="mySlides fade">
-				  <div class="numbertext">2 / 5</div>
-				  <img src="Pics/Art02.png" style="width:100%">
-				  <div class="text">JoJo Commission</div>
+					<div class="numbertext">2 / 10</div>
+					<img src="Pics/Art02.png" style="width:100%">
+					<div class="text">JoJo Commission</div>
 				</div>
-				
+			
 				<div class="mySlides fade">
-				  <div class="numbertext">3 / 5</div>
-				  <img src="Pics/Art03.png" style="width:100%">
-				  <div class="text">Chibi Commission</div>
+					<div class="numbertext">3 / 10</div>
+					<img src="Pics/Art03.png" style="width:100%">
+					<div class="text">Chibi Commission</div>
 				</div>
-				
+			
 				<div class="mySlides fade">
-					<div class="numbertext">4 / 5</div>
+					<div class="numbertext">4 / 10</div>
 					<img src="Pics/Art04.png" style="width:100%">
 					<div class="text">ArtCollab w/ CupOfJooWie</div>
 				</div>
-				
+			
 				<div class="mySlides fade">
-					<div class="numbertext">5 / 5</div>
+					<div class="numbertext">5 / 10</div>
 					<img src="Pics/Art05.png" style="width:100%">
 					<div class="text">DTIYS 01</div>
 				</div>
-				
-					<a class="prev" onclick="plusSlides(-1)">❮</a>
-  					<a class="next" onclick="plusSlides(1)">❯</a>
-				
+			
+				<!-- Animations Slideshow -->
+				<div class="mySlides fade">
+					<div class="numbertext">6 / 10</div>
+					<video class="slideshow-video" width="100%" autoplay loop muted controls>
+						<source src="Vids/Animatics.mp4" type="video/mp4">
+					</video>
+					<div class="text">ANIMATICS</div>
 				</div>
-				<br>
 				
+				<div class="mySlides fade">
+					<div class="numbertext">7 / 10</div>
+					<video class="slideshow-video" width="100%" autoplay loop muted controls>
+						<source src="Vids/2D Advertisement.mp4" type="video/mp4">
+					</video>
+					<div class="text">2D ADVERTISEMENT</div>
+				</div>
+
+				<div class="mySlides fade">
+					<div class="numbertext">8 / 10</div>
+					<video class="slideshow-video" width="100%" autoplay loop muted controls>
+						<source src="Vids/Stop Motion.mp4" type="video/mp4">
+					</video>
+					<div class="text">STOP MOTION</div>
+				</div>
+
+				<div class="mySlides fade">
+					<div class="numbertext">9 / 10</div>
+					<video class="slideshow-video" width="100%" autoplay loop muted controls>
+						<source src="Vids/LipSync.mp4" type="video/mp4">
+					</video>
+					<div class="text">LIP SYNC ANIMATION</div>
+				</div>
+
+				<div class="mySlides fade">
+					<div class="numbertext">10 / 10</div>
+					<video class="slideshow-video" width="100%" autoplay loop muted controls>
+						<source src="Vids/Dance Animation.mp4" type="video/mp4">
+					</video>
+					<div class="text">DANCE ANIMATION</div>
+				</div>
+
+				<a class="prev" onclick="plusSlides(-1)">❮</a>
+				<a class="next" onclick="plusSlides(1)">❯</a>
+			
+				<br>
+			
 				<div style="text-align:center">
 					<span class="dot" onclick="currentSlide(1)"></span> 
 					<span class="dot" onclick="currentSlide(2)"></span> 
 					<span class="dot" onclick="currentSlide(3)"></span> 
 					<span class="dot" onclick="currentSlide(4)"></span> 
 					<span class="dot" onclick="currentSlide(5)"></span> 
-				  </div>
-				
-				<script>
-					let slideIndex = 1;
-				  
-					function showSlides(n) {
-					  let slides = document.getElementsByClassName("mySlides");
-					  let dots = document.getElementsByClassName("dot");
-					  
-					  if (n > slides.length) {
+					<span class="dot" onclick="currentSlide(6)"></span>
+					<span class="dot" onclick="currentSlide(7)"></span>
+					<span class="dot" onclick="currentSlide(8)"></span>
+					<span class="dot" onclick="currentSlide(9)"></span>
+					<span class="dot" onclick="currentSlide(10)"></span>
+				</div>
+			</div>
+
+			<script>
+				let slideIndex = 1;
+			
+				function showSlides(n) {
+					let slides = document.getElementsByClassName("mySlides");
+					let dots = document.getElementsByClassName("dot");
+			
+					if (n > slides.length) {
 						slideIndex = 1;
-					  }
-					  if (n < 1) {
+					}
+					if (n < 1) {
 						slideIndex = slides.length;
-					  }
-				  
-					  for (let i = 0; i < slides.length; i++) {
+					}
+			
+					for (let i = 0; i < slides.length; i++) {
 						slides[i].classList.remove("active");
-					  }
-					  for (let i = 0; i < dots.length; i++) {
+					}
+					for (let i = 0; i < dots.length; i++) {
 						dots[i].classList.remove("active");
-					  }
-				  
-					  slides[slideIndex - 1].classList.add("active");
-					  dots[slideIndex - 1].classList.add("active");
 					}
-				  
-					function plusSlides(n) {
-					  showSlides((slideIndex += n));
-					}
-				  
-					function currentSlide(n) {
-					  showSlides((slideIndex = n));
-					}
-				  
-					showSlides(slideIndex);
-				  </script>
-						
+			
+					slides[slideIndex - 1].classList.add("active");
+					dots[slideIndex - 1].classList.add("active");
+				}
+			
+				function plusSlides(n) {
+					showSlides((slideIndex += n));
+				}
+			
+				function currentSlide(n) {
+					showSlides((slideIndex = n));
+				}
+			
+				showSlides(slideIndex);
+			
+				const backgroundMusic = document.getElementById('backgroundMusic');
+				const videos = document.querySelectorAll('.slideshow-video');
+			
+				const observer = new IntersectionObserver((entries, observer) => {
+					entries.forEach(entry => {
+						const video = entry.target;
+			
+						if (entry.isIntersecting) {
+							video.play();
+			
+							backgroundMusic.muted = true;
+						} else {
+							video.pause();
+
+							video.currentTime = 0;
+
+							backgroundMusic.muted = false;
+						}
+					});
+				}, {
+					threshold: 0.5
+				});
+			
+				videos.forEach(video => {
+					observer.observe(video);
+				});
+			</script>						
+
+			<div style="text-align: center; margin-top: 20px;">
+				<p>Check out my socials! 👇
+					<br><br>
+						<a href="https://x.com/SectorDoesArt" target="_blank">
+							<img src="Pics/X.png" alt="Twitter" style="width: 40px; height: 40px; margin: 0 20px;">
+						</a>
+						<a href="https://cara.app/sectordoesart/all" target="_blank">
+							<img src="Pics/Cara.png" alt="Cara" style="width: 40px; height: 40px; margin: 0 20px">
+						</a>
+						<a href="https://www.facebook.com/profile.php?id=61561662428998" target="_blank">
+							<img src="Pics/Facebook.png" alt="Facebook" style="width: 40px; height: 40px; margin: 0 20px">
+						</a>
+				</p>
+			</div>
+		<footer style="text-align: center; margin-top: 40px;">
+			<p>© 2024 Romeo Manuel M. Bongais - All rights reserved.</p>
+		</footer>
 	</body>
 </html>
