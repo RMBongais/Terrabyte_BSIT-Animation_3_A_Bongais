@@ -162,27 +162,27 @@
             <div class="card" style="width: 18rem;">
                 <div class="card-body">
                     <h5 class="card-title">Total Orders</h5>
-                    <h1 class="card-text">10</h1>
+                    <h1 class="card-text">5</h1>
                 </div>
             </div>
         
             <div class="card pend-card" style="width: 18rem;">
                 <div class="card-body">
                     <h5 class="card-title">Pending</h5>
-                    <h1 class="card-text">3</h1>
+                    <h1 class="card-text">2</h1>
                 </div>
             </div>
         
             <div class="card ready-card" style="width: 18rem;">
                 <div class="card-body">
                     <h5 class="card-title">Ready to Deliver/Pick Up</h5>
-                    <h1 class="card-text">5</h1>
+                    <h1 class="card-text">1</h1>
                 </div>
             </div>
         
             <div class="card done-card" style="width: 18rem;">
                 <div class="card-body">
-                    <h5 class="card-title">Completed</h5>
+                    <h5 class="card-title">Completed/Paid</h5>
                     <h1 class="card-text">2</h1>
                 </div>
             </div>
@@ -209,12 +209,14 @@
                         <td>Corndog</td>
                         <td>5</td>
                         <td>₱100.00</td>
-                        <td>Completed</td>
                         <td>
-                            <!--Edit-->
-                                <a href="edit-product.html" class="action-icon-link" title="Edit">
-                                    <img src="Pics/Edit.jpg" alt="Edit" style="width: 24px; height: 24px;">
-                                </a>
+                            <!--Status Dropdown grrr-->
+                            <select class="form-select status-dropdown" onchange="updateStatus(this)">
+                                <option value="Confirm">Confirm</option>
+                                <option value="Pending">Pending</option>
+                                <option value="Ready">Ready</option>
+                                <option value="Paid" selected>Paid</option>
+                            </select>
                         </td>
                     </tr>
                     <tr>
@@ -223,40 +225,63 @@
                         <td>Fries</td>
                         <td>2</td>
                         <td>₱40.00</td>
-                        <td>Pending</td>
                         <td>
-                            <!--Edit-->
-                                <a href="edit-product.html" class="action-icon-link" title="Edit">
-                                    <img src="Pics/Edit.jpg" alt="Edit" style="width: 24px; height: 24px;">
-                                </a>
+                            <!--Status Dropdown grrr-->
+                            <select class="form-select status-dropdown" onchange="updateStatus(this)">
+                                <option value="Confirm">Confirm</option>
+                                <option value="Pending">Pending</option>
+                                <option value="Ready">Ready</option>
+                                <option value="Paid" selected>Paid</option>
+                            </select>
                         </td>
+                        
                     </tr>
                     <tr>
-                        <td>Jowan</td>
+                        <td>Melody</td>
                         <td>002</td>
                         <td>Nachos</td>
                         <td>1</td>
                         <td>₱25.00</td>
-                        <td>Pending</td>
                         <td>
-                            <!--Edit-->
-                                <a href="edit-product.html" class="action-icon-link" title="Edit">
-                                    <img src="Pics/Edit.jpg" alt="Edit" style="width: 24px; height: 24px;">
-                                </a>
+                            <!--Status Dropdown grrr-->
+                            <select class="form-select status-dropdown" onchange="updateStatus(this)">
+                                <option value="Confirm">Confirm</option>
+                                <option value="Pending" selected>Pending</option>
+                                <option value="Ready">Ready</option>
+                                <option value="Paid">Paid</option>
+                            </select>
+                        </td>
+                    </tr>                    
+                    <tr>
+                        <td>Jowan</td>
+                        <td>003, 002</td>
+                        <td>Fries, Nachos</td>
+                        <td>1, 1</td>
+                        <td>₱45.00</td>
+                        <td>
+                            <!--Status Dropdown grrr-->
+                            <select class="form-select status-dropdown" onchange="updateStatus(this)">
+                                <option value="Confirm">Confirm</option>
+                                <option value="Pending" selected>Pending</option>
+                                <option value="Ready">Ready</option>
+                                <option value="Paid">Paid</option>
+                            </select>
                         </td>
                     </tr>
                     <tr>
-                        <td>Jowan</td>
-                        <td>003</td>
-                        <td>Fries</td>
-                        <td>1</td>
-                        <td>₱20.00</td>
-                        <td>Ready</td>
+                        <td>Rem</td>
+                        <td>003, 001</td>
+                        <td>Fries, Corndog</td>
+                        <td>1, 4</td>
+                        <td>₱100.00</td>
                         <td>
-                            <!--Edit-->
-                                <a href="edit-product.html" class="action-icon-link" title="Edit">
-                                    <img src="Pics/Edit.jpg" alt="Edit" style="width: 24px; height: 24px;">
-                                </a>
+                            <!--Status Dropdown grrr-->
+                            <select class="form-select status-dropdown" onchange="updateStatus(this)">
+                                <option value="Confirm">Confirm</option>
+                                <option value="Pending">Pending</option>
+                                <option value="Ready" selected>Ready</option>
+                                <option value="Paid">Paid</option>
+                            </select>
                         </td>
                     </tr>
             </tbody>
