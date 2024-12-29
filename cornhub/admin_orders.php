@@ -1,3 +1,64 @@
+<?php
+// Include your database connection file
+include("include/connection.php");
+
+// Initialize counts for each order status
+$total_orders = $cancelled_orders = $pending_orders = $ready_orders = $delivering_orders = $completed_orders = 0;
+
+// Fetch the total number of orders from the database
+$sql = "SELECT COUNT(*) AS total_orders FROM orders";
+$result = $conn->query($sql);
+if ($result) {
+    $row = $result->fetch_assoc();
+    $total_orders = $row['total_orders'];
+}
+
+// Fetch the count of canceled orders
+$sql_cancelled = "SELECT COUNT(*) AS cancelled_orders FROM orders WHERE order_status = 'Order Cancelled'";
+$result_cancelled = $conn->query($sql_cancelled);
+if ($result_cancelled) {
+    $row_cancelled = $result_cancelled->fetch_assoc();
+    $cancelled_orders = $row_cancelled['cancelled_orders'];
+}
+
+// Fetch the count of pending/confirmed orders
+$sql_pending = "SELECT COUNT(*) AS pending_orders FROM orders WHERE order_status = 'Order Confirmed'";
+$result_pending = $conn->query($sql_pending);
+if ($result_pending) {
+    $row_pending = $result_pending->fetch_assoc();
+    $pending_orders = $row_pending['pending_orders'];
+}
+
+// Fetch the count of ready to deliver/pick up orders
+$sql_ready = "SELECT COUNT(*) AS ready_orders FROM orders WHERE order_status = 'Order Ready'";
+$result_ready = $conn->query($sql_ready);
+if ($result_ready) {
+    $row_ready = $result_ready->fetch_assoc();
+    $ready_orders = $row_ready['ready_orders'];
+}
+
+// Fetch the count of orders in delivery
+$sql_delivering = "SELECT COUNT(*) AS delivering_orders FROM orders WHERE order_status = 'Order in Deliver'";
+$result_delivering = $conn->query($sql_delivering);
+if ($result_delivering) {
+    $row_delivering = $result_delivering->fetch_assoc();
+    $delivering_orders = $row_delivering['delivering_orders'];
+}
+
+// Fetch the count of completed/paid orders
+$sql_completed = "SELECT COUNT(*) AS completed_orders FROM orders WHERE order_status = 'Order Paid'";
+$result_completed = $conn->query($sql_completed);
+if ($result_completed) {
+    $row_completed = $result_completed->fetch_assoc();
+    $completed_orders = $row_completed['completed_orders'];
+}
+
+// Fetch all the orders in descending order
+$sql_all_orders = "SELECT * FROM orders ORDER BY order_ID DESC";
+$all_product = $conn->query($sql_all_orders);
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -28,6 +89,7 @@
             background-color: #F4F3E6;
             flex-grow: 1;
             padding: 20px;
+            margin-left: 250px;
         }
         .container-fluid {
             display: flex;
@@ -46,6 +108,7 @@
             .nav-link.active {
                 color: #FD4D02 !important;
                 background-color: #F4F3E6 !important;
+                width: 240px;
             }
 
             /*Sidebar*/
@@ -53,7 +116,14 @@
                 width: 250px;
                 background-color: #FD4D02;
                 color: #F4F3E6;
-                flex-shrink: 0;
+                position: fixed;
+                top: 0;
+                left: 0;
+                height: 100vh;
+                overflow-y: auto;
+                overflow-x: hidden;
+                z-index: 1000;
+                padding: 15px;
             }
             .sidebar a {
                 color: #F4F3E6;
@@ -122,10 +192,27 @@
                 color: #ffffff;
                 border: none;
             }
+            .cancel-card {
+                background-color: gray;
+                color: #ffffff;
+                border: none;
+            }
+            .del-card {
+                background-color: #add8e6;
+                color: #ffffff;
+                border: none;
+            }
 
             /*Buttons*/
-            button.btn img {
-                vertical-align: middle;
+            .btn {
+                background-color: #FC703C;
+                border: none;
+                color: white;
+            }
+            .btn:hover {
+                background-color: #FD4D02;
+                border: none;
+                color: white;
             }
     </style>
 </head>
@@ -156,133 +243,104 @@
         <p></p>
     
         <!--Status of Products-->
-        <div class="card-container d-flex flex-row justify-content-center gap-3 p-4">
-            <div class="card" style="width: 18rem;">
-                <div class="card-body">
-                    <h5 class="card-title">Total Orders</h5>
-                    <h1 class="card-text">5</h1>
+        <div class="container-fluid">
+            <div class="row g-4 justify-content-center">
+                <div class="col-md-4">
+                    <div class="card" style="width: 25rem;">
+                        <div class="card-body">
+                            <h5 class="card-title">Total Orders</h5>
+                            <h1 class="card-text"><?php echo $total_orders; ?></h1>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card pend-card" style="width: 25rem;">
+                        <div class="card-body">
+                            <h5 class="card-title">Pending/Confirmed</h5>
+                            <h1 class="card-text"><?php echo $pending_orders; ?></h1>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card ready-card" style="width: 25rem;">
+                        <div class="card-body">
+                            <h5 class="card-title">Ready to Deliver/Pick Up</h5>
+                            <h1 class="card-text"><?php echo $ready_orders; ?></h1>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card del-card" style="width: 25rem;">
+                        <div class="card-body">
+                            <h5 class="card-title">In Deliver</h5>
+                            <h1 class="card-text"><?php echo $delivering_orders; ?></h1>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card done-card" style="width: 25rem;">
+                        <div class="card-body">
+                            <h5 class="card-title">Completed/Paid</h5>
+                            <h1 class="card-text"><?php echo $completed_orders; ?></h1>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <div class="card cancel-card" style="width: 25rem;">
+                        <div class="card-body">
+                            <h5 class="card-title">Cancelled</h5>
+                            <h1 class="card-text"><?php echo $cancelled_orders; ?></h1>
+                        </div>
+                    </div>
                 </div>
             </div>
-        
-            <div class="card pend-card" style="width: 18rem;">
-                <div class="card-body">
-                    <h5 class="card-title">Pending</h5>
-                    <h1 class="card-text">2</h1>
-                </div>
-            </div>
-        
-            <div class="card ready-card" style="width: 18rem;">
-                <div class="card-body">
-                    <h5 class="card-title">Ready to Deliver/Pick Up</h5>
-                    <h1 class="card-text">1</h1>
-                </div>
-            </div>
-        
-            <div class="card done-card" style="width: 18rem;">
-                <div class="card-body">
-                    <h5 class="card-title">Completed/Paid</h5>
-                    <h1 class="card-text">2</h1>
-                </div>
-            </div>
-        </div>        
+        </div>     
             
         <!-- Products Section -->
         <div>
             <table class="table full-width-table table-bordered table-hover custom-table">
                 <thead>
                     <tr>
-                        <th>Customer Name</th>
-                        <th>Product ID</th>
-                        <th>Product Name</th>
-                        <th>Quantity</th>
-                        <th>Total Price</th>
+                        <th>Order ID</th>
+                        <th>Order Date</th>
+                        <th>Name</th>
+                        <th>Contact Number</th>
+                        <th>Delivery Address</th>
+                        <th>Payment Method</th>
                         <th>Status</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <!--Customer Orders-->
-                    <tr>
-                        <td>Tope</td>
-                        <td>001</td>
-                        <td>Corndog</td>
-                        <td>5</td>
-                        <td>₱100.00</td>
-                        <td>
-                            <!--Status Dropdown grrr-->
-                            <select class="form-select status-dropdown" onchange="updateStatus(this)">
-                                <option value="Confirm">Confirm</option>
-                                <option value="Pending">Pending</option>
-                                <option value="Ready">Ready</option>
-                                <option value="Paid" selected>Paid</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Kenet</td>
-                        <td>003</td>
-                        <td>Fries</td>
-                        <td>2</td>
-                        <td>₱40.00</td>
-                        <td>
-                            <!--Status Dropdown grrr-->
-                            <select class="form-select status-dropdown" onchange="updateStatus(this)">
-                                <option value="Confirm">Confirm</option>
-                                <option value="Pending">Pending</option>
-                                <option value="Ready">Ready</option>
-                                <option value="Paid" selected>Paid</option>
-                            </select>
-                        </td>
-                        
-                    </tr>
-                    <tr>
-                        <td>Melody</td>
-                        <td>002</td>
-                        <td>Nachos</td>
-                        <td>1</td>
-                        <td>₱25.00</td>
-                        <td>
-                            <!--Status Dropdown grrr-->
-                            <select class="form-select status-dropdown" onchange="updateStatus(this)">
-                                <option value="Confirm">Confirm</option>
-                                <option value="Pending" selected>Pending</option>
-                                <option value="Ready">Ready</option>
-                                <option value="Paid">Paid</option>
-                            </select>
-                        </td>
-                    </tr>                    
-                    <tr>
-                        <td>Jowan</td>
-                        <td>003, 002</td>
-                        <td>Fries, Nachos</td>
-                        <td>1, 1</td>
-                        <td>₱45.00</td>
-                        <td>
-                            <!--Status Dropdown grrr-->
-                            <select class="form-select status-dropdown" onchange="updateStatus(this)">
-                                <option value="Confirm">Confirm</option>
-                                <option value="Pending" selected>Pending</option>
-                                <option value="Ready">Ready</option>
-                                <option value="Paid">Paid</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Rem</td>
-                        <td>003, 001</td>
-                        <td>Fries, Corndog</td>
-                        <td>1, 4</td>
-                        <td>₱100.00</td>
-                        <td>
-                            <!--Status Dropdown grrr-->
-                            <select class="form-select status-dropdown" onchange="updateStatus(this)">
-                                <option value="Confirm">Confirm</option>
-                                <option value="Pending">Pending</option>
-                                <option value="Ready" selected>Ready</option>
-                                <option value="Paid">Paid</option>
-                            </select>
-                        </td>
-                    </tr>
-            </tbody>
+                    <?php
+                    // Fetch all rows from the query result
+                    if ($all_product && $all_product->num_rows > 0) {
+                        while ($row = $all_product->fetch_assoc()) {
+                            ?>
+                            <tr>
+                                <td><?php echo $row["order_ID"]; ?></td>
+                                <td><?php echo $row["order_date"]; ?></td>
+                                <td><?php echo $row["fullName"]; ?></td>
+                                <td><?php echo $row["phone"]; ?></td>
+                                <td><?php echo $row["address"]; ?></td>
+                                <td><?php echo $row["pmode"]; ?></td>
+                                <td><?php echo $row["order_status"]; ?></td>
+                                <td><a href="admin_view_orders.php?id=<?php echo $row["order_ID"]; ?>" class="btn">View</a></td>
+                            </tr>
+                            <?php
+                        }
+                    } else {
+                        ?>
+                        <tr><td colspan="8" class="text-center">No orders found</td></tr>
+                        <?php
+                    }
+                    ?>
+                </tbody>
         </table>
     </div>
         </div>

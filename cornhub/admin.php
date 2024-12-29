@@ -1,3 +1,17 @@
+<?php
+    session_start();
+    include("include/connection.php");
+
+    // Query to get total orders
+    $sql = "SELECT COUNT(*) as total_orders FROM orders"; // Replace 'orders' with your table name
+    $result = $conn->query($sql);
+
+    $total_orders = 0;
+    if ($result && $result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $total_orders = $row['total_orders'];
+    }
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,11 +37,14 @@
             padding: 0;
             font-family: "Roboto", sans-serif;
             background-color: #F5F5E9;
+            overflow-x: hidden;
         }
         .content {
             background-color: #F4F3E6;
             flex-grow: 1;
             padding: 20px;
+            margin-left: 250px;
+            max-width: calc(100% - 250px);
         }
         .container-fluid {
             display: flex;
@@ -46,6 +63,7 @@
             .nav-link.active {
                 color: #FD4D02 !important;
                 background-color: #F4F3E6 !important;
+                width: 240px;
             }
 
             /*Sidebar*/
@@ -53,14 +71,27 @@
                 width: 250px;
                 background-color: #FD4D02;
                 color: #F4F3E6;
-                flex-shrink: 0;
+                position: fixed;
+                top: 0;
+                left: 0;
+                height: 100vh;
+                overflow-y: auto;
+                overflow-x: hidden;
+                z-index: 1000;
+                padding: 15px;
+                box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
             }
+
             .sidebar a {
                 color: #F4F3E6;
                 text-decoration: none;
+                white-space: nowrap;
+                display: block;
             }
+
             .sidebar a:hover {
                 background-color: #F4F3E6;
+                color: #FD4D02;
                 transition: 0.5s;
             }
 
@@ -140,7 +171,7 @@
             <div class="card" style="width: 18rem;">
                 <div class="card-body">
                     <h5 class="card-title">Total Orders</h5>
-                    <h1 class="card-text">5</h1>
+                    <h1 class="card-text"><?php echo $total_orders; ?></h1>
                     <a href="admin_orders.php" class="btn btn-light btn-sm">View Orders</a>
                 </div>
             </div>
@@ -162,7 +193,7 @@
             <div class="card" style="width: 18rem;">
                 <div class="card-body">
                         <h5>Reports</h5>
-                        <h2>8</h2>
+                        <h2>0</h2>
                         <a href="admin_reports.php" class="btn btn-light btn-sm">View Reports</a>
                     </div>
                 </div>

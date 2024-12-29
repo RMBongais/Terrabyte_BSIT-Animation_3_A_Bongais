@@ -2,10 +2,11 @@
 session_start();
 include("include/connection.php");
 
-$user_ID = isset($_SESSION['user_ID']) ? $_SESSION['user_ID'] : null; // Retrieve user_ID from session
+$user_ID = isset($_SESSION['user_ID']) ? $_SESSION['user_ID'] : null;
 
+//If a user is not logged in, cannot add product/s to cart
 if (isset($_POST['add_to_cart'])) {
-    if (!$user_ID) { // Check if the user is not logged in
+    if (!$user_ID) {
         echo "<script>alert('You must be logged in to use this function.');</script>";
     }
 }
@@ -14,13 +15,12 @@ $sql = "SELECT * FROM product";
 $all_product = $conn->query($sql);
 
 if (isset($_POST['add_to_cart'])) {
-    $product_id = $_POST['prod_id']; // Get product_ID from the form
+    $product_id = $_POST['prod_id'];
     $product_name = $_POST['prod_name'];
     $product_price = $_POST['prod_price'];
     $product_image = $_POST['prod_img'];
     $product_quantity = 1;
 
-    // Use a prepared statement to avoid SQL injection
     $select_cart = $conn->prepare("SELECT * FROM cart WHERE user_ID = ? AND product_ID = ?");
     $select_cart->bind_param("ii", $user_ID, $product_id);
     $select_cart->execute();
@@ -51,6 +51,7 @@ if (isset($_POST['add_to_cart'])) {
         ?>
         <?php require_once('include/navbar.php'); ?>
         <main>
+            <!--Fetch all the products and diplay it-->
             <?php
                 while($row = mysqli_fetch_assoc($all_product)){
             ?>

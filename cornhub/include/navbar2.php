@@ -42,18 +42,6 @@
                     <li class="nav-item">
                         <a class="nav-link" href="orders.php" data-target="">Orders</a>
                     </li>
-                    <!--<li class="nav-item d-flex align-items-center">
-                        <a class="nav-link2" href="cart.php" data-target="">
-                            <i class="bi bi-bag fs-5">
-                                <span class="position-absolute top-30 start-90 translate-middle badge rounded-pill bg-danger"><?php echo $row_count; ?></span>
-                            </i>
-                        </a>
-                    </li>
-                    <li class="nav-item d-flex align-items-center">
-                        <a class="nav-link2" href="orders.php" data-target="">
-                            <i class="bi bi-person fs-5"></i>
-                        </a>
-                    </li>-->
                     <li class="nav-item d-flex align-items-center">
                         <a href="include/logout.php" onclick='return confirm("Are you sure you want to log out?");' class="btn rounded-pill">Logout</a>
                     </li>

@@ -2,6 +2,7 @@
     session_start();
     include("include/connection.php");
 
+    //Fetching all products from the cart of a certain user ID
     $user_ID = isset($_SESSION['user_ID']) ? $_SESSION['user_ID'] : null;
     if ($user_ID) {
         $select_cart = mysqli_query($conn, "SELECT * FROM `cart` WHERE `user_ID` = '$user_ID'");
@@ -11,14 +12,18 @@
         exit;
     }
 
+    //Function for removing a product
     if (isset($_GET['remove'])) {
         $remove_id = $_GET['remove'];
         mysqli_query($conn, "DELETE FROM `cart` WHERE `product_ID` = '$remove_id' AND `user_ID` = '$user_ID'");
+        //Refresh page when a product is removed
         header('location:cart.php');
     }
 
+    //Function for removing all products
     if (isset($_GET['delete_all'])) {
         mysqli_query($conn, "DELETE FROM `cart` WHERE `user_ID` = '$user_ID'");
+        //Refresh page when all products were removed
         header('location:cart.php');
     }
 ?>
@@ -41,15 +46,16 @@
     <main>
         <div class="row">
             <div class="col-12">
-                <h1>My Cart (#)</h1>
+                <h1>My Cart (<?php echo $row_count; ?>)</h1>
             </div>
         </div>
+        <!--Calculating the subtotal and grandtotal-->
         <?php 
-            $grand_total = 0; // Initialize here
+            $grand_total = 0;
             if (mysqli_num_rows($select_cart) > 0) {
                 while ($fetch_cart = mysqli_fetch_assoc($select_cart)) {
                     $sub_total = $fetch_cart['prod_price'] * $fetch_cart['prod_qty'];
-                    $grand_total += $sub_total; // Add subtotal for each product here
+                    $grand_total += $sub_total;
         ?>
         <div class="card mb-3" style="max-width: 1300px;">
             <div class="row g-0">
@@ -92,12 +98,14 @@
                 <p class="total_amount" id="grand_total">₱ <?php echo number_format($grand_total); ?></p>
             </div>
             <a href="cart.php?delete_all" onclick="return confirm('Are you sure you want to remove all?');" class="btn">Remove All</a>
+            <!--Redirect to checkout.php-->
             <a href="checkout.php" class="btn <?= ($grand_total > 1)?'':'disabled'; ?>">Proceed to Checkout</a>
         </div>
     </main>
     <?php require_once('include/footer2.php'); ?>
 
     <script>
+        //Function to increase or decrease quantity
         function changeQuantity(change, productID) {
             var quantityElement = document.getElementById(`quantity-${productID}`);
             var currentQuantity = parseInt(quantityElement.innerText);
@@ -117,7 +125,6 @@
                     try {
                         const response = JSON.parse(xhr.responseText);
                         if (response.success) {
-                            // Dynamically update the quantity and prices in the UI
                             quantityElement.innerText = response.new_quantity;
 
                             // Safely update the text content without removing HTML structure

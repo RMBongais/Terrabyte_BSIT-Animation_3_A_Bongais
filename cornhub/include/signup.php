@@ -2,6 +2,7 @@
     session_start();
     require "connection.php";
 
+    //Function for fiiling up data into the database
     if(isset($_POST['signUp'])) {
         $firstName = $_POST['firstName'];
         $middleName = $_POST['middleName'];
@@ -30,6 +31,7 @@
         }
     }
 
+    //Function for retrieving a certain data from the database and redirect the user to another page if success
     if(isset($_POST['logIn'])){
         $email=$_POST['email'];
         $password=$_POST['password'];
@@ -45,12 +47,7 @@
         }
         elseif($row["usertype"]=="admin") {
             header("location:../admin.php");
-        }
-        /*if ($result->num_rows > 0) {
-            
-            header("Location: ../ecommerce2.php");
-            exit();
-        }*/ else {
+        } else {
             echo "<script>
                     alert('Incorrect Email or Password. Please try again. -,-');
                     window.location.href = '../ecommerce.php'; // Redirect back to login page

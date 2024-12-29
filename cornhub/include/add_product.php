@@ -6,27 +6,37 @@ if (isset($_POST['add_product'])) {
     $product_desc = $_POST['prod_desc'];
     $product_category = $_POST['category_ID'];
     $product_image = $_FILES['prod_img']['name'];
+    $product_image_path = 'images/' . $product_image;
     $product_image_tmp_name = $_FILES['prod_img']['tmp_name'];
-    $product_image_folder = 'images/' . $product_image;
 
-    // Validate inputs
     if (empty($product_name) || empty($product_price) || empty($product_desc) || empty($product_category) || empty($product_image)) {
         $message[] = 'Please fill out all fields!';
     } else {
-        // Insert product details into the database
-        $insert_query = "INSERT INTO product (prod_name, prod_price, prod_desc, prod_img, category_ID) VALUES ('$product_name', '$product_price', '$product_desc', '$product_image', '$product_category')";
-        $upload = mysqli_query($conn, $insert_query);
+        // Check if the product already exists
+        $check_query = "SELECT * FROM product WHERE prod_name = '$product_name'";
+        $check_result = mysqli_query($conn, $check_query);
 
-        if ($upload) {
-            // Move uploaded file to the folder
-            move_uploaded_file($product_image_tmp_name, $product_image_folder);
-            $message[] = 'New product added successfully!';
+        if (mysqli_num_rows($check_result) > 0) {
+            $message[] = 'Product already exists!';
         } else {
-            $message[] = 'Could not add the product. Please try again.';
+            $insert_query = "INSERT INTO product (prod_name, prod_price, prod_desc, prod_img, category_ID) 
+                             VALUES ('$product_name', '$product_price', '$product_desc', '$product_image_path', '$product_category')";
+
+            $upload = mysqli_query($conn, $insert_query);
+
+            if ($upload) {
+                move_uploaded_file($product_image_tmp_name, $product_image_path);
+                $message[] = 'New product added successfully!';
+                exit;
+            } else {
+                error_log('Query Error: ' . mysqli_error($conn));
+                $message[] = 'Could not add the product. Please try again.';
+            }
         }
     }
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -127,8 +137,8 @@ if (isset($_POST['add_product'])) {
                         </div>
                         <div class="row">
                             <div class="col me-3 mb-3">
-                                <label for="file">Choose Image:</label>
-                                <input type="file" class="form-control-file" name="prod_img" required>
+                                <label for="form-label">Choose Image:</label>
+                                <input type="file" class="form-control" name="prod_img" required>
                             </div>
                         </div>
                         <div class="row">
@@ -143,11 +153,23 @@ if (isset($_POST['add_product'])) {
     </div>
 
     <script>
-        var myModal = new bootstrap.Modal(document.getElementById('firstmodal'), {
-            keyboard: false
+        // Check if 'add_product' parameter exists in the URL
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.has('add_product')) {
+            var myModal = new bootstrap.Modal(document.getElementById('firstmodal'), {
+                keyboard: false
+            });
+            myModal.show();
+        }
+        const form = document.querySelector("form");
+        form.addEventListener("submit", function (e) {
+            const submitButton = form.querySelector('button[type="submit"]');
+            submitButton.disabled = true;
+            submitButton.textContent = "Processing...";
         });
-        myModal.show();
+
     </script>
+
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>

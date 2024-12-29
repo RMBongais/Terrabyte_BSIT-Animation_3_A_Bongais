@@ -215,6 +215,7 @@
     </form>
 
     <script>
+        //Function for requiring all fields to be filled out
         document.getElementById("nextButton").addEventListener("click", function(event) {
             var firstName = document.getElementById("firstName").value;
             var middleName = document.getElementById("middleName").value;
