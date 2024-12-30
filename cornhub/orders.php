@@ -76,11 +76,11 @@
                         die("Invalid query: " . $conn->error);
                     }
 
-                    //If order is cancelled, the button is disabled
+                    //Improved logic for button state based on order status
                     while($row = $result->fetch_assoc()) {
                         $order_status = $row['order_status'];
-                        $disabled = $order_status === 'Order Cancelled' ? 'disabled' : '';
-                        $button_text = $order_status === 'Order Cancelled' ? 'Cancelled' : 'Cancel';
+                        $disabled = ($order_status === 'Order Cancelled' || $order_status === 'Order Paid') ? 'disabled' : '';
+                        $button_text = ($order_status === 'Order Cancelled') ? 'Cancelled' : (($order_status === 'Order Paid') ? 'Paid' : 'Cancel');
 
                         echo "
                             <tr>
@@ -107,7 +107,7 @@
         // Function to update the order status to "Order Cancelled"
         function cancelOrder(button, event) {
             event.preventDefault(); 
-            
+
             const orderId = button.getAttribute('href').split('=')[1]; 
 
             // AJAX request to update the order status in the database
